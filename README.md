@@ -4,87 +4,11 @@
 
 [Zipper](https://github.com/lecrapouille/zipper) is a C++11 wrapper around minizip compression library. Its goal is to bring the power and simplicity of minizip to a more object-oriented/c++ user-friendly library.
 
-This project is the continuation of the original [project](https://github.com/sebastiandev/zipper/tree/v2.x.y). The original project was born out of the necessity of a compression library that would be reliable, simple, and flexible. By flexibility I mean supporting all kinds of inputs and outputs, but specifically being able to compress into memory instead of being restricted to file compression only, and using data from memory instead of just files as well.
+## Fork Information
 
-This current fork repo has been made because the original project was no longer maintained by the original authors and I, Lecrapouille, have some issues due to missing administration rights (needed for CI, branch management ...).
-
-## Zipper Features
-
-- [x] Create zip in memory.
-- [x] Allow files, vectors, and generic streams as input to zip.
-- [x] File mappings for replacing strategies (overwrite if exists or use alternative names from mapping).
-- [x] Password-protected zip (EAS).
-- [x] Multi-platform.
-- [x] Project compiled as static and dynamic libraries.
-- [x] Protection against the [Zip Slip attack](https://security.snyk.io/research/zip-slip-vulnerability).
-- [x] Non-regression tests.
-
-**:warning: Security Notice**
-
-- Zipper currently follows an outdated (and probably vulnerable) version of the https://github.com/Lecrapouille/minizip library.
-- While some fixes have been added this lib may be still vulnerable to ZipSlip attacks and mitigations should be put in place by Zipper's users.
-
-## Getting Started
-
-### Compiling / Installing
-
-To download the project and compile it:
-
-```shell
-git clone https://github.com/lecrapouille/zipper.git --recursive
-cd zipper
-make download-external-libs
-make compile-external-libs
-make -j`nproc --all`
-# make -j`sysctl -n hw.logicalcpu` for MacOS X
-```
-
-Notes:
-- Git cloning needs the recursivity option to install the Makefile helper.
-- `make download-external-libs` will git clone zlib and minizip to the `external` folder. This replaces git submodules.
-- `make compile-external-libs` will compile zlib and minizip but not install them on your operating system. They are
-compiled as static libraries and merged into this library.
-
-Installing C++ header files and compiled libraries, type:
-
-```shell
-sudo make install
-```
-
-For Linux, you will see a message like:
-
-```shell
-*** Installing: doc => /usr/share/Zipper/2.0.0/doc
-*** Installing: libs => /usr/lib
-*** Installing: pkg-config => /usr/lib/pkgconfig
-*** Installing: headers => /usr/include/Zipper-2.0.0
-*** Installing: Zipper => /usr/include/Zipper-2.0.0
-```
-
-### Linking Zipper to your project
-
-- In your project add the needed headers in your c++ files:
-
-```c++
-#include <Zipper/Unzipper.hpp>
-#include <Zipper/Zipper.hpp>
-```
-
-- To compile your project against Zipper use pkg-config:
-
-```shell
-g++ -W -Wall --std=c++11 main.cpp -o prog `pkg-config zipper --cflags --libs`
-```
-
-- For Makefile:
-  - set `LDFLAGS` to `pkg-config zipper --libs`
-  - set `CPPFLAGS` to `pkg-config zipper --cflags`
-
-- For CMake:
-```
-include(FindPkgConfig)
-find_package(zipper)
-```
+This fork is a simplified, cmake-ified version designed to be included as a submodule to a larger linux-based project. It does not support AES encryption.
+First, you must initialize the zipper submodule (minizip) via `git submodule init`. Add the top level directory to your project via `add_subdirectory(zipper)`. 
+This will create a target `zipper` that you can depend on.
 
 ## API
 
@@ -95,7 +19,7 @@ There are two classes available `Zipper` and `Unzipper`. They behave in the same
 #### Header
 
 ```c++
-#include <Zipper/Zipper.hpp>
+#include "Zipper.hpp"
 using namespace zipper;
 ```
 

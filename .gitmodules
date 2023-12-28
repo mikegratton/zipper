@@ -1,3 +1,6 @@
-[submodule ".makefile"]
-	path = .makefile
-	url = https://github.com/Lecrapouille/MyMakefile.git
+[submodule "external/zlib-ng"]
+	path = external/zlib-ng
+	url = git@github.com:zlib-ng/zlib-ng
+[submodule "external/minizip"]
+	path = external/minizip
+	url = git@github.com:Lecrapouille/minizip
